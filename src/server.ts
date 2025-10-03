@@ -5,27 +5,27 @@ import { type CallToolResult, type GetPromptResult, type ReadResourceResult } fr
 export const getServer = (): McpServer => {
   const server = new McpServer(
     {
-      name: "mcp-server-template",
+      name: "my-mcp-time-server",
       version: "0.0.1",
     },
     { capabilities: {} },
   );
 
-  // Register a simple prompt
   server.prompt(
-    "greeting-template",
-    "A simple greeting prompt template",
+    "time-query-template",
+    "A prompt template for asking about current time",
     {
-      name: z.string().describe("Name to include in greeting"),
+      timezone: z.string().optional().describe("Timezone to inquire about (e.g., 'Paris', 'UTC', 'New York')"),
     },
-    async ({ name }): Promise<GetPromptResult> => {
+    async ({ timezone }): Promise<GetPromptResult> => {
+      const location = timezone || "UTC";
       return {
         messages: [
           {
             role: "user",
             content: {
               type: "text",
-              text: `Please greet ${name} in a friendly manner.`,
+              text: `What is the current time in ${location}?`,
             },
           },
         ],
@@ -34,33 +34,18 @@ export const getServer = (): McpServer => {
   );
 
   server.tool(
-    "greet",
-    "A simple greeting tool",
-    {
-      name: z.string().describe("Name to greet"),
-    },
-    async ({ name }): Promise<CallToolResult> => {
+    "utc-time",
+    "Retrieves the current UTC time",
+    {},
+    async (): Promise<CallToolResult> => {
+      const currentTime = new Date();
+      const utcString = currentTime.toISOString();
+
       return {
         content: [
           {
             type: "text",
-            text: `Hello, ${name}!`,
-          },
-        ],
-      };
-    },
-  );
-
-  server.resource(
-    "greeting-resource",
-    "https://example.com/greetings/default",
-    { mimeType: "text/plain" },
-    async (): Promise<ReadResourceResult> => {
-      return {
-        contents: [
-          {
-            uri: "https://example.com/greetings/default",
-            text: "Hello, world!",
+            text: `Current UTC time: ${utcString}`,
           },
         ],
       };

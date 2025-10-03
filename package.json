@@ -1,14 +1,14 @@
 {
-  "name": "mcp-server-template",
+  "name": "my-mcp-time-server",
   "version": "0.0.1",
   "private": true,
   "main": "dist/index.js",
-  "description": "Alpic MCP Server Template",
+  "description": "MCP Server for retrieving current UTC time",
   "files": [
     "dist"
   ],
   "bin": {
-    "mcp-server-template": "./dist/index.js"
+    "my-mcp-time-server": "./dist/index.js"
   },
   "type": "module",
   "scripts": {
