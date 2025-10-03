@@ -4,11 +4,14 @@ A TypeScript MCP server for retrieving current UTC time using Streamable HTTP tr
 
 ## Overview
 
-This MCP server provides a simple utility to retrieve the current UTC time. It communicates with AI assistants and other MCP clients via HTTP, exposing the following capabilities:
+This MCP server provides utilities to retrieve current time information in UTC and specific timezones. It communicates with AI assistants and other MCP clients via HTTP using Streamable HTTP transport, exposing the following capabilities:
 
 - **Tool**: `utc-time` - Retrieves current UTC time in ISO 8601 format
+- **Tool**: `timezone-time` - Retrieves current time in any IANA timezone (e.g., Europe/Paris, America/New_York)
 - **Prompt**: `time-query-template` - Template for generating time-related queries
 - **Resource**: None (this server focuses on real-time data via tools)
+
+**Deployment**: This server is designed to be hosted on [Alpic MCP-Server Cloud Service](https://alpic.ai/)
 
 ## Prerequisites
 
@@ -84,6 +87,18 @@ Retrieves the current UTC time in ISO 8601 format.
 **Example Response:**
 ```
 Current UTC time: 2025-10-03T14:30:45.123Z
+```
+
+#### timezone-time
+
+Retrieves the current time in a specific timezone.
+
+**Parameters:**
+- `timezone` (required): IANA timezone identifier (e.g., 'Europe/Paris', 'America/New_York', 'Asia/Tokyo')
+
+**Example Response:**
+```
+Current time in Europe/Paris: 10/03/2025, 16:30:45
 ```
 
 ### Prompts
